@@ -45,10 +45,10 @@ export default function configureServiceStore(preloadedState: any, appReducer: a
 
     const loadReduxDevtools = process.env.NODE_ENV !== 'test'; //eslint-disable-line no-process-env
 
-    let enhancers = clientOptions.additionalEnhancer || []
+    const enhancers = clientOptions.additionalEnhancer || [];
 
     if (loadReduxDevtools) {
-        enhancers.push(devToolsEnhancer())
+        enhancers.push(devToolsEnhancer());
     }
 
     const store = redux.createStore(

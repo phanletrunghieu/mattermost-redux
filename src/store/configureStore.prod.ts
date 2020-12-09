@@ -30,7 +30,7 @@ export default function configureOfflineServiceStore(preloadedState: any, appRed
 
     const baseOfflineConfig = Object.assign({}, defaultOfflineConfig, offlineConfig, userOfflineConfig);
 
-    let enhancers = clientOptions.additionalEnhancer || []
+    const enhancers = clientOptions.additionalEnhancer || [];
 
     const store = redux.createStore(
         createOfflineReducer(createReducer(baseState, serviceReducer as any, appReducer)),
