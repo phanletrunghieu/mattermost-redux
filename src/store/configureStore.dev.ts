@@ -37,6 +37,7 @@ import {GlobalState} from 'types/store';
  *     additionalMiddleware - func | array - Allows for single or multiple additional middleware functions to be passed in from the client side.
  *     enableBuffer - bool - default = true - If true, the store will buffer all actions until offline state rehydration occurs.
  *     enableThunk - bool - default = true - If true, include the thunk middleware automatically. If false, thunk must be provided as part of additionalMiddleware.
+ *     additionalEnhancer - array - Allows for single or multiple additional enhancers to be passed in from the client side.
  */
 export default function configureServiceStore(preloadedState: any, appReducer: any, userOfflineConfig: any, getAppReducer: any, clientOptions: any) {
     const baseOfflineConfig = Object.assign({}, defaultOfflineConfig, offlineConfig, userOfflineConfig);
@@ -44,12 +45,18 @@ export default function configureServiceStore(preloadedState: any, appReducer: a
 
     const loadReduxDevtools = process.env.NODE_ENV !== 'test'; //eslint-disable-line no-process-env
 
+    let enhancers = clientOptions.additionalEnhancer || []
+
+    if (loadReduxDevtools) {
+        enhancers.push(devToolsEnhancer())
+    }
+
     const store = redux.createStore(
         createOfflineReducer(createDevReducer(baseState, serviceReducer, appReducer)),
         baseState,
         offlineCompose(baseOfflineConfig)(
             createMiddleware(clientOptions),
-            loadReduxDevtools ? [devToolsEnhancer()] : [],
+            enhancers,
         ),
     );
 

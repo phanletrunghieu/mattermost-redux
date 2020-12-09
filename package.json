@@ -1,10 +1,13 @@
 {
-  "name": "mattermost-redux",
+  "name": "x-mattermost-redux",
   "version": "5.29.0",
   "description": "Common code (API client, Redux stores, logic, utility functions) for building a Mattermost client",
   "homepage": "https://github.com/mattermost/mattermost-redux",
   "license": "Apache-2.0",
-  "repository": "github:mattermost/mattermost-redux",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phanletrunghieu/mattermost-redux.git"
+  },
   "bugs": {
     "url": "https://github.com/mattermost/mattermost-redux/issues"
   },

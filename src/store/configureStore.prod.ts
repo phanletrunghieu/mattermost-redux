@@ -23,18 +23,21 @@ import defaultOfflineConfig from 'redux-offline/lib/defaults';
  *     additionalMiddleware - func | array - Allows for single or multiple additional middleware functions to be passed in from the client side.
  *     enableBuffer - bool - default = true - If true, the store will buffer all actions until offline state rehydration occurs.
  *     enableThunk - bool - default = true - If true, include the thunk middleware automatically. If false, thunk must be provided as part of additionalMiddleware.
+ *     additionalEnhancer - array - Allows for single or multiple additional enhancers to be passed in from the client side.
  */
-export default function configureOfflineServiceStore(preloadedState: any, appReducer: any, userOfflineConfig: any, getAppReducer: any, clientOptions = {}) {
+export default function configureOfflineServiceStore(preloadedState: any, appReducer: any, userOfflineConfig: any, getAppReducer: any, clientOptions: any = {}) {
     const baseState = Object.assign({}, initialState, preloadedState);
 
     const baseOfflineConfig = Object.assign({}, defaultOfflineConfig, offlineConfig, userOfflineConfig);
+
+    let enhancers = clientOptions.additionalEnhancer || []
 
     const store = redux.createStore(
         createOfflineReducer(createReducer(baseState, serviceReducer as any, appReducer)),
         baseState,
         offlineCompose(baseOfflineConfig)(
             createMiddleware(clientOptions),
-            [],
+            enhancers,
         ),
     );
 
